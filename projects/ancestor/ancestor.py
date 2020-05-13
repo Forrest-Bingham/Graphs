@@ -31,7 +31,7 @@ class Graph:
         """
         return self.vertices[vertex_id]
 
-     def dfs(self, starting_vertex, destination_vertex):
+    def dfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -70,16 +70,44 @@ class Graph:
                         dfs_path.push(copy)
 
 
-    def earliest_ancestor(ancestors, starting_node):
+def earliest_ancestor(ancestors, starting_node):
     #test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
     #Create a graph
     ancestor_graph = Graph()
 
     #Create a path
     path = []
-    
-    #add vertices
+
+    # add vertices
+    for v in range(0,20):
+        ancestor_graph.add_vertex(v)
+    # for pair in ancestors:
+    #     ancestor_graph.add_vertex(pair[0])
+
+    #     ancestor_graph.add_vertex(pair[1])
+
+    #     ancestor_graph.add_edge(pair[1], pair[0])
 
     #add edges
+    for a in ancestors:
+        #Adds edge from a[0] to a[1]
+        ancestor_graph.add_edge(a[0], a[1])
 
-    #Add paths 
+    #Add paths to ancestors
+
+    #for # of vertices in Graph.self.vertices = {}
+    for v in ancestor_graph.vertices:
+        
+        if ancestor_graph.dfs(v, starting_node) is not None and len(ancestor_graph.dfs(v, starting_node)) > 0:
+            path.append(ancestor_graph.dfs(v,starting_node))
+
+    if len(path) == 1:
+        return -1
+
+    starting_path = path[0]
+    for x in path:
+        if len(x) > len(starting_path) or len(x) == len(starting_path) and x[0] < starting_path[0]:
+            print(x, "----x")
+            starting_path = x
+    print(starting_path[0])
+    return starting_path[0]
