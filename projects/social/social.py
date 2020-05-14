@@ -1,3 +1,6 @@
+import random 
+import math
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -45,8 +48,45 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for user in range(0, num_users):
+            self.add_user(f"user -- {user}")
+
+        possible_friendships = [] 
 
         # Create friendships
+        for user_id in self.users:
+            for friend_id in range(user_id + 1, self.last_id + 1):
+                possible_friendships.append((user_id, friend_id))
+
+        random.shuffle(possible_friendships)
+
+        for i in range(0, math.floor(num_users * avg_friendships / 2)):
+            friendship = possible_friendships[i]
+            self.add_friendship(friendship[0], friendship[1])
+
+    def populate_graph_linear(self, num_users, avg_friendships):
+        self.last_id = 0
+        self.users = {}
+        self.friendships = {}
+
+        for i in range(num_users):
+            self.addUser(f"User {i+1}")
+
+        target_friendships = num_users * avg_friendships
+
+        total_friendships = 0
+        collisions = 0
+
+        while total_friendships < target_friendships:
+
+            user_id = random.randint(1, self.last_id)
+            friend_id = random.randint(1,self.last_id)
+
+            if self.add_friendship(user__id, friend_id):
+                total_friendships += 2
+            else:
+                collisions += 1
+        print(f"Collisions: {collisions}")
 
     def get_all_social_paths(self, user_id):
         """
